@@ -30,6 +30,8 @@ void readData(vector<Person> &empVec) {
 
 void getCompanies(vector<Person> &empVec, vector<string> &cmpVec) {
 
+  //set first element of cmpVec to first company name since
+  // no possible duplicates with vector size of one
   cmpVec.push_back(empVec.at(0).getCompanyName());
 
   string newWord;
@@ -50,7 +52,6 @@ void getCompanies(vector<Person> &empVec, vector<string> &cmpVec) {
     }
   }
 }
-
 
 void printHighestPaid(vector<Person> &empVec) {
 
@@ -73,17 +74,23 @@ void printHighestPaid(vector<Person> &empVec) {
 
 void seperateAndSave(vector<Person> &empVec, vector<string> &cmpVec) {
 
+
+
   for(int j = 0; j<cmpVec.size(); j++) {
     ofstream myFile(cmpVec.at(j) + ".txt");
+    float cmpTotalPay = 0;
     for(int i=0; i<empVec.size(); i++) {
       if(empVec.at(i).getCompanyName() == cmpVec.at(j)) {
-        myFile << empVec.at(i).fullName() << " "
-               << empVec.at(i).getEmployeeId() << " "
-               << empVec.at(i).getCompanyName() << " $"
+        cmpTotalPay += empVec.at(i).totalPay();
+        myFile << setw(9) << left << empVec.at(i).getFirstName() << " "
+               << setw(9) << left << empVec.at(i).getLastName() << " "
+               << setw(3) << right << empVec.at(i).getEmployeeId() << " "
+               << setw(10) << left << empVec.at(i).getCompanyName() << " $"
                << setprecision(2) << fixed
                << empVec.at(i).totalPay() << endl;
       }
     }
+    myFile << "Total: $" << cmpTotalPay << endl;
     myFile.close();
   }
 }
