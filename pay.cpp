@@ -2,6 +2,7 @@
 
 #include "person.cpp"
 #include <iostream>
+#include <iomanip>
 #include <fstream>
 #include <vector>
 
@@ -24,40 +25,63 @@ void readData(vector<Person> &empVec) {
 
     empVec.push_back(newPerson);
   }
+  //testing
+  cout << "There are " << empVec.size() << " employees in readData. (should be 16)" << endl;
+
   myFile.close();
 }
 
 void getCompanies(vector<Person> &empVec, vector<string> &cmpVec) {
 
-  string tmp, it;
+  //testing that empVec is correct
+  cout << "There are " << empVec.size() << " employees in getCompanies. (should be 16)" << endl;
+  //testing that cmpVec is empty
+  cout << "There are " << cmpVec.size() << " companies in cmpVec before. (should be 0)" << endl;
 
-  for (int i=0; i<empVec.size(); i++) {
-    cmpVec.push_back(empVec.at(i).getCompanyName());
-  }
+  //first company name is pushed back since there cannot be
+  // any duplicates with only one element
+  cmpVec.push_back(empVec.at(0).getCompanyName());
+  cout << "First company pushed back to cmpVec is " << cmpVec.at(0) << endl;
 
-  tmp = cmpVec.at(0);
-  for(it = cmpVec.begin(); it != cmpVec.end(); it++) {
-    if(it == tmp) {
-      cmpVec.erase(cmpVec.at(tmp));
+  string newWord;
+
+  // newWord is set to a companyName from empVec
+  // for loop iteratres through cmpVec checking for duplicates
+  // if duplicate, break. If unique, push_back
+  for (int i=1; i<empVec.size(); i++) {
+    newWord = empVec.at(i).getCompanyName();
+    for (int j=0; j<cmpVec.size(); j++) {
+      if (cmpVec.at(j) == newWord) {
+        break;
+      } else {
+        if (j == cmpVec.size() - 1) {
+          cmpVec.push_back(newWord);
+        }
+      }
     }
   }
-
-  cout << "There are " << cmpVec.size() << " companies." << endl; //testing
-
-  // for (int i=0; i<empVec.size(); i++) {
-  //   cmpVec.push_back(empVec.at(i).getCompanyName());
-  // }
-
-  // for (it = cmpVec.begin(); it != cmpVec.end(); it++) {
-  //   if (tmp == it) {
-  //     cmpVec.erase();
-  //   }
-  // }
+  //testing after removing duplicates
+  cout << "There are " << cmpVec.size() << " companies in cmpVec after. (should be 5)" << endl;
 
 }
 
 
-void printHighestPaid() {
+void printHighestPaid(vector<Person> &empVec) {
+
+  int   arrayPos   = 0;
+  float highestAmt = empVec.at(arrayPos).totalPay();
+
+  for (int i=1; i<empVec.size(); i++) {
+    if (empVec.at(i).totalPay() > highestAmt) {
+      highestAmt = empVec.at(i).totalPay();
+      arrayPos = i;
+    }
+  }
+  cout << "Highest paid: " << empVec.at(arrayPos).fullName() << endl;
+  cout << "Employee ID: " << empVec.at(arrayPos).getEmployeeId() << endl;
+  cout << "Employer: " << empVec.at(arrayPos).getCompanyName() << endl;
+  cout << "Total Pay: $" << setprecision(2) << fixed
+                        << empVec.at(arrayPos).totalPay() << endl;
 
 }
 
@@ -74,8 +98,8 @@ int main () {
 
   getCompanies(employees, companyNames);
 
-//  printHighestPaid(vector employees);
+  printHighestPaid(employees);
 
-//  seperateAndSave(vector employees, vector companyNames);
+//  seperateAndSave(employees, companyNames);
 
 }
