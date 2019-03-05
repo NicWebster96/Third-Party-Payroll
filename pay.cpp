@@ -25,23 +25,12 @@ void readData(vector<Person> &empVec) {
 
     empVec.push_back(newPerson);
   }
-  //testing
-  cout << "There are " << empVec.size() << " employees in readData. (should be 16)" << endl;
-
   myFile.close();
 }
 
 void getCompanies(vector<Person> &empVec, vector<string> &cmpVec) {
 
-  //testing that empVec is correct
-  cout << "There are " << empVec.size() << " employees in getCompanies. (should be 16)" << endl;
-  //testing that cmpVec is empty
-  cout << "There are " << cmpVec.size() << " companies in cmpVec before. (should be 0)" << endl;
-
-  //first company name is pushed back since there cannot be
-  // any duplicates with only one element
   cmpVec.push_back(empVec.at(0).getCompanyName());
-  cout << "First company pushed back to cmpVec is " << cmpVec.at(0) << endl;
 
   string newWord;
 
@@ -60,9 +49,6 @@ void getCompanies(vector<Person> &empVec, vector<string> &cmpVec) {
       }
     }
   }
-  //testing after removing duplicates
-  cout << "There are " << cmpVec.size() << " companies in cmpVec after. (should be 5)" << endl;
-
 }
 
 
@@ -85,8 +71,21 @@ void printHighestPaid(vector<Person> &empVec) {
 
 }
 
-void seperateAndSave() {
+void seperateAndSave(vector<Person> &empVec, vector<string> &cmpVec) {
 
+  for(int j = 0; j<cmpVec.size(); j++) {
+    ofstream myFile(cmpVec.at(j) + ".txt");
+    for(int i=0; i<empVec.size(); i++) {
+      if(empVec.at(i).getCompanyName() == cmpVec.at(j)) {
+        myFile << empVec.at(i).fullName() << " "
+               << empVec.at(i).getEmployeeId() << " "
+               << empVec.at(i).getCompanyName() << " $"
+               << setprecision(2) << fixed
+               << empVec.at(i).totalPay() << endl;
+      }
+    }
+    myFile.close();
+  }
 }
 
 int main () {
@@ -100,6 +99,6 @@ int main () {
 
   printHighestPaid(employees);
 
-//  seperateAndSave(employees, companyNames);
+  seperateAndSave(employees, companyNames);
 
 }
