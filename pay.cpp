@@ -5,7 +5,6 @@
 #include <iomanip>
 #include <fstream>
 #include <vector>
-#include <list>
 
 void readData(vector<Person> &empVec) {
 
