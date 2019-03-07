@@ -5,6 +5,7 @@
 #include <iomanip>
 #include <fstream>
 #include <vector>
+#include <list>
 
 void readData(vector<Person> &empVec) {
 
@@ -36,9 +37,9 @@ void getCompanies(vector<Person> &empVec, vector<string> &cmpVec) {
 
   string newWord;
 
-  // newWord is set to a companyName from empVec
-  // for loop iteratres through cmpVec checking for duplicates
-  // if duplicate, break. If unique, push_back
+  // newWord is set to a companyName from empVec.
+  // Then iteratres through cmpVec checking for duplicates.
+  // If duplicate, break. If unique, push_back
   for (int i=1; i<empVec.size(); i++) {
     newWord = empVec.at(i).getCompanyName();
     for (int j=0; j<cmpVec.size(); j++) {
